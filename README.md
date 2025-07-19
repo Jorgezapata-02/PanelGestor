@@ -1,7 +1,9 @@
 # Sistema de Apoyos (Pilas y Colas)
 
 **Nombre:** Jorge de Jesus Priego Zapata
+
 **Grupo y materia:** 8vo Semestre - Estrctura de Datos
+
 **Docente** Kevin David Molina Cruz
 
 
