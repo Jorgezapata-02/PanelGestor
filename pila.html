@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Apoyos (Pila)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #1565c0;
+            --azul-hover: #1976d2;
+        }
+        .btn-azul {
+            background-color: var(--azul);
+            color: #fff;
+            border: none;
+        }
+        .btn-azul:hover, .btn-azul:focus {
+            background-color: var(--azul-hover);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Historial de Apoyos (Pila)</h2>
+    <form method="post" class="mb-3">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-8">
+                <input type="text" name="apoyo" class="form-control" placeholder="Nombre del apoyo recibido">
+            </div>
+            <div class="col-md-4 d-grid">
+                <button type="submit" name="agregar" class="btn btn-azul mb-2">Agregar al historial</button>
+                <button type="submit" name="deshacer" class="btn btn-azul">Deshacer último apoyo (Desapilar)</button>
+            </div>
+        </div>
+    </form>
+    {% if mensaje %}
+        <div class="alert alert-info">{{ mensaje }}</div>
+    {% endif %}
+    <h4>Historial de apoyos:</h4>
+    <ul class="list-group">
+        {% for apoyo in pila %}
+            <li class="list-group-item">{{ apoyo }}</li>
+        {% else %}
+            <li class="list-group-item">El historial está vacío.</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('menu') }}" class="btn btn-secondary mt-3">Volver al menú</a>
+</div>
+</body>
+</html>

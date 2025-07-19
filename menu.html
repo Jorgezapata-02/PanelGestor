@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Gestión de Apoyos</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #1565c0;
+            --azul-hover: #1976d2;
+        }
+        .navbar {
+            background-color: var(--azul) !important;
+        }
+        .navbar .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .main-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+        .main-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--azul);
+            margin-bottom: 1rem;
+        }
+        .main-desc {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .btn-azul {
+            background-color: var(--azul);
+            color: #fff;
+            border: none;
+        }
+        .btn-azul:hover, .btn-azul:focus {
+            background-color: var(--azul-hover);
+            color: #fff;
+        }
+    </style>
+</head>
+<body style="background: #f4f8fb;">
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Panel Apoyos</a>
+    </div>
+</nav>
+<div class="main-container">
+    <div class="main-title">¡Bienvenido al Panel de Apoyos!</div>
+    <div class="main-desc">
+        Este sistema facilita la administración de apoyos mediante dos herramientas clave:<br>
+        <ul class="text-start" style="max-width: 600px; margin: 0 auto; font-size: 1.05rem;">
+            <li><b>Gestión de Turnos:</b> Utiliza una cola para organizar la entrega de tarjetas de manera ordenada y eficiente.</li>
+            <li><b>Registro de Apoyos:</b> Emplea una pila para llevar el control de los apoyos otorgados, permitiendo revertir el último si es necesario.</li>
+        </ul>
+        Navega usando los botones inferiores para acceder a cada módulo.
+    </div>
+    <hr>
+    <div class="accordion mt-5" id="apoyosAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingCola">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCola" aria-expanded="false" aria-controls="collapseCola">
+                    Gestión de Turnos (Cola)
+                </button>
+            </h2>
+            <div id="collapseCola" class="accordion-collapse collapse" aria-labelledby="headingCola" data-bs-parent="#apoyosAccordion">
+                <div class="accordion-body">
+                    <form method="post" class="mb-3">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-7">
+                                <input type="text" name="tarjeta" class="form-control" placeholder="Nombre de la persona o tarjeta">
+                            </div>
+                            <div class="col-md-2 d-grid">
+                                <button type="submit" name="agregar_cola" class="btn btn-azul">Agregar a la cola</button>
+                            </div>
+                            <div class="col-md-3 d-grid">
+                                <button type="submit" name="atender_cola" class="btn btn-azul">Atender (Desencolar)</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% if mensaje_cola %}
+                        <div class="alert alert-info">{{ mensaje_cola }}</div>
+                    {% endif %}
+                    <h5>Personas en la cola:</h5>
+                    <ul class="list-group">
+                        {% for persona in cola %}
+                            <li class="list-group-item">{{ persona }}</li>
+                        {% else %}
+                            <li class="list-group-item">La cola está vacía.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingPila">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePila" aria-expanded="false" aria-controls="collapsePila">
+                    Registro de Apoyos (Pila)
+                </button>
+            </h2>
+            <div id="collapsePila" class="accordion-collapse collapse" aria-labelledby="headingPila" data-bs-parent="#apoyosAccordion">
+                <div class="accordion-body">
+                    <form method="post" class="mb-3">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-8">
+                                <input type="text" name="apoyo" class="form-control" placeholder="Nombre del apoyo recibido">
+                            </div>
+                            <div class="col-md-4 d-grid">
+                                <button type="submit" name="agregar_pila" class="btn btn-azul mb-2">Agregar al historial</button>
+                                <button type="submit" name="deshacer_pila" class="btn btn-azul">Deshacer último apoyo (Desapilar)</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% if mensaje_pila %}
+                        <div class="alert alert-info">{{ mensaje_pila }}</div>
+                    {% endif %}
+                    <h5>Historial de apoyos:</h5>
+                    <ul class="list-group">
+                        {% for apoyo in pila %}
+                            <li class="list-group-item">{{ apoyo }}</li>
+                        {% else %}
+                            <li class="list-group-item">El historial está vacío.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Eliminar los botones de navegación antiguos, ya no son necesarios -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
